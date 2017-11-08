@@ -1,3 +1,5 @@
+hello_pixy.cpp was the first completed program for a single camera.  (MWE-11/06/2017)
+
 libpixyusb API Reference:
 
 http://charmedlabs.github.io/pixy/index.html
