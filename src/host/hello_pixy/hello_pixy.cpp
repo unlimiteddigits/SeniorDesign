@@ -21,12 +21,15 @@
 #include <string.h>
 #include "pixy.h"
 #include <math.h>       /* sin */
+#include "actor.cpp"
 
 #define BLOCK_BUFFER_SIZE    25
 #define PI 3.14159265
 
 // Pixy Block buffer // 
 struct Block blocks[BLOCK_BUFFER_SIZE];
+
+
 
 static bool run_flag = true;
 
@@ -38,9 +41,11 @@ void handle_SIGINT(int unused)
 }
 
 //begin MWE
-int room_width, room_length;
-int  i_average_counter;
-float f_average_X, f_average_Y, f_average_W, f_average_H,	f_average_AFC, f_average_D;
+	int room_center;
+	Actor aSoldier[10];
+	int room_width, room_length;
+	int  i_average_counter;
+	float f_average_X, f_average_Y, f_average_W, f_average_H,	f_average_AFC, f_average_D;
 
 
 bool p_average_all_data (int &x, int &y, int &w, int &h, float &physical_distance_W, float &angle_from_center) 
@@ -216,7 +221,7 @@ void mapXY(int x, int y){
 	printf("|%i long\n",room_length);
 }
 
-void process_buffer(char buf[128])
+void process_buffer(int index, char buf[128])
 {
 	int x, y, w, h, area, id, pixel_width;
 	float aspect, focal_length, physical_width, physical_distance_W, computed_distance;
@@ -431,8 +436,15 @@ if (blocks_copied>0){
 //    printf("My frame %d:\n", i);
     for(index = 0; index != blocks_copied; ++index) {    
        blocks[index].print(buf);
-       //printf("  %s\n", buf);
-	process_buffer(buf);
+	aSoldier[index].set_x(blocks[index].x);
+	aSoldier[index].set_y(blocks[index].y);
+	aSoldier[index].set_w(blocks[index].width);
+	aSoldier[index].set_h(blocks[index].height);
+	aSoldier[index].set_id(blocks[index].signature);
+	aSoldier[index].set_index(index);
+	aSoldier[index].print_h();
+       printf("%i  %s\n", aSoldier[index].get_index(),buf);
+	//process_buffer(index,buf);
 }
     }
     i++;
