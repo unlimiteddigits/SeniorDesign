@@ -1,4 +1,4 @@
-# Install script for directory: /home/pi/pixy/src/host/hello_pixy
+# Install script for directory: /home/pi/SeniorDesign/src/host/hello_pixy
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/pi/pixy/build/hello_pixy/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/pi/SeniorDesign/build/hello_pixy/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

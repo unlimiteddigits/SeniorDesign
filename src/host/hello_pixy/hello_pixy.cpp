@@ -201,7 +201,7 @@ void mapXY(int x, int y){
 	printf("x %i, y%i\n",x,y);
 	printf("|");
 	for(i = 1; i<=room_width; ++i) { 
-		printf("-");
+		printf("--");
 	}
 	printf("|%i wide\n",room_width);
 	for(i = 1; i<=room_length; ++i) { 
@@ -221,13 +221,46 @@ void mapXY(int x, int y){
 	printf("|%i long\n",room_length);
 }
 
+void map4XY(){
+	int i,j,k;
+        char signature[] = {' ','R','G','B','\0'};
+
+	printf("x %i, y%i\n",room_length,room_width);
+	printf("|");
+	for(i = 1; i<=room_width; ++i) { 
+		printf("--");
+	}
+	printf("|%i wide\n",room_width);
+	for(i = 1; i<=room_length; ++i) { 
+		printf("|");
+		for(j = 1; j<=room_width; ++j) { 
+			k=0;
+			while (aSoldier[k].get_id()>=0) {
+				if ((i==aSoldier[k].get_room_Y_position()) && (j==aSoldier[k].get_room_X_position()) ) {
+					printf("%c",signature[aSoldier[k].get_id()]);
+				} else {
+					printf("  ");
+				};
+				k++;
+			};
+		}
+		printf("|\n");
+	}
+	printf("|");
+	for(i = 1; i<=room_width; ++i) { 
+		printf("--");
+	}
+	printf("|%i long\n",room_length);
+};
+
+
 void process_buffer(int index, char buf[128])
 {
 	int x, y, w, h, area, id, pixel_width;
 	float aspect, focal_length, physical_width, physical_distance_W, computed_distance;
 	float physical_height, physical_distance_H, physical_aspect;
 	int room_center;
-	float angle_pixel_constant, angle_from_center;
+	float angle_per_pixel, angle_from_center;
 
 	int return_value;
 
@@ -268,6 +301,7 @@ void process_buffer(int index, char buf[128])
 	pixel_width=161;
 
 	focal_length=(pixel_width * physical_distance_W) / physical_width ;
+       // printf("%f  \n", focal_length);
 
 	physical_distance_W=(physical_width * focal_length) / w;
 	physical_distance_H=(physical_height * focal_length) / h;
@@ -275,7 +309,7 @@ void process_buffer(int index, char buf[128])
 		computed_distance=physical_distance_W;
 	} else {
 		computed_distance=physical_distance_H;
-	}
+	};
 //physical_aspect=physical_distance_W / physical_distance_H;
 
 //x=r sin t
@@ -284,10 +318,10 @@ void process_buffer(int index, char buf[128])
 // viewing_angle = 2 * (ATAN(24.5 / 50)) = 52.2 deg => 6.1291 pixels / deg
 
 // .163155337 deg / pixel
-	angle_pixel_constant=.163155337 ;
+	angle_per_pixel=.163155337 ;
 	room_center=160;
 	
-	angle_from_center = (x-room_center+w/2)*angle_pixel_constant;
+	angle_from_center = (x-room_center+w/2)*angle_per_pixel;
 	x=(int(  computed_distance /12* sin( angle_from_center *PI/180)))+room_width/2 ;
 	y=int(  computed_distance/12* cos( angle_from_center*PI/180));
 
@@ -304,12 +338,14 @@ void process_buffer(int index, char buf[128])
 	
 
 		//output_values(id, x, y, w, h, aspect, area);
-		printf("afc=%f Dist_W=%f Dist_H=%f Physical Aspect= %f\n", angle_from_center, (physical_distance_W), (physical_distance_H),physical_aspect );
+//		printf("afc=%f Dist_W=%f Dist_H=%f Physical Aspect= %f\n", angle_from_center, (physical_distance_W), (physical_distance_H),physical_aspect );
 //		printf("afc=%f Dist=%f Sin(afc)=%f Cos(afc)=%f\n", angle_from_center, (physical_distance_W/12),sin(angle_from_center*PI/180),(cos(angle_from_center*PI/180)) );
 		output_values(id, x, y, w, h, aspect, area);
 	x=(int(  computed_distance /12* sin( angle_from_center *PI/180)))+room_width/2 ;
 	y=int(  computed_distance /12* cos( angle_from_center*PI/180));
-		mapXY(x,y);
+//		printf("angle_from_cente oldr =%f  %i %i %f \n", angle_from_center,x-room_center,w,angle_per_pixel );
+//		mapXY(x,y);
+		map4XY();
 	} else {
 //		printf("Average false =%f\n",id); 
 //		output_values(id, x, y, w, h, aspect, area);
@@ -436,15 +472,11 @@ if (blocks_copied>0){
 //    printf("My frame %d:\n", i);
     for(index = 0; index != blocks_copied; ++index) {    
        blocks[index].print(buf);
-	aSoldier[index].set_x(blocks[index].x);
-	aSoldier[index].set_y(blocks[index].y);
-	aSoldier[index].set_w(blocks[index].width);
-	aSoldier[index].set_h(blocks[index].height);
-	aSoldier[index].set_id(blocks[index].signature);
-	aSoldier[index].set_index(index);
-	aSoldier[index].print_h();
-       printf("%i  %s\n", aSoldier[index].get_index(),buf);
-	//process_buffer(index,buf);
+	aSoldier[index].set_all(blocks[index].x, blocks[index].y, blocks[index].width, blocks[index].height, blocks[index].signature, index);
+	aSoldier[index+1].set_id(-1);
+//	aSoldier[index].print_index();
+//        printf(" %s\n",buf);
+	process_buffer(index,buf);
 }
     }
     i++;
