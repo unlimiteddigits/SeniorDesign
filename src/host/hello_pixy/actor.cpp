@@ -68,12 +68,12 @@ void Actor::set_all(int new_x,int new_y,int new_w,int new_h,int new_id,int new_i
 	id=new_id;
 	index=new_index;
 	i_average_counter++;
-	if (i_average_counter>10) {
+	if (i_average_counter>9) {
 		i_average_counter=0;
-		compute_average_x(10);
-		compute_average_y(10);
-		compute_average_w(10);
-		compute_average_h(10);
+		compute_average_x(9);
+		compute_average_y(9);
+		compute_average_w(9);
+		compute_average_h(9);
 
 	angle_from_center = (x-camera_pixel_center+w/2)*angle_per_pixel;
 	physical_distance_W=(physical_width * focal_length) / w;

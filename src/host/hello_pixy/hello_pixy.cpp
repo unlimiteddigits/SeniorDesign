@@ -224,6 +224,8 @@ void mapXY(int x, int y){
 void map4XY(){
 	int i,j,k;
         char signature[] = {' ','R','G','B','\0'};
+	bool b_spaced_out;
+
 
 	printf("x %i, y%i\n",room_length,room_width);
 	printf("|");
@@ -235,11 +237,15 @@ void map4XY(){
 		printf("|");
 		for(j = 1; j<=room_width; ++j) { 
 			k=0;
+			b_spaced_out=true;
 			while (aSoldier[k].get_id()>=0) {
 				if ((i==aSoldier[k].get_room_Y_position()) && (j==aSoldier[k].get_room_X_position()) ) {
-					printf("%c",signature[aSoldier[k].get_id()]);
+					printf("%c%i",signature[aSoldier[k].get_id()],aSoldier[k].get_index());
 				} else {
-					printf("  ");
+					if (b_spaced_out) {
+						printf("  ");
+						b_spaced_out=false;
+					};
 				};
 				k++;
 			};
@@ -364,7 +370,7 @@ int main(int argc, char * argv[])
   int      return_value;
 
 	room_width=13;
-	room_length=19;
+	room_length=30;
 	i_average_counter=0;
 	f_average_X=0;
 	f_average_Y=0;
@@ -475,7 +481,7 @@ if (blocks_copied>0){
 	aSoldier[index].set_all(blocks[index].x, blocks[index].y, blocks[index].width, blocks[index].height, blocks[index].signature, index);
 	aSoldier[index+1].set_id(-1);
 //	aSoldier[index].print_index();
-//        printf(" %s\n",buf);
+//        printf("%i %s\n",index,buf);
 	process_buffer(index,buf);
 }
     }
