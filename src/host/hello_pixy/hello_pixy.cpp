@@ -221,7 +221,7 @@ void mapXY(int x, int y){
 	printf("|%i long\n",room_length);
 }
 
-void map4XY(){
+void map4XY(int i_count){
 	int i,j,k;
         char signature[] = {' ','R','G','B','\0'};
 	bool b_spaced_out;
@@ -236,11 +236,13 @@ void map4XY(){
 	for(i = 1; i<=room_length; ++i) { 
 		printf("|");
 		for(j = 1; j<=room_width; ++j) { 
-			k=0;
 			b_spaced_out=true;
-			while (aSoldier[k].get_id()>=0) {
+			k=0;
+//aSoldier[k].get_id()>=0
+			while (k<=i_count) {
 				if ((i==aSoldier[k].get_room_Y_position()) && (j==aSoldier[k].get_room_X_position()) ) {
 					printf("%c%i",signature[aSoldier[k].get_id()],aSoldier[k].get_index());
+						b_spaced_out=false;
 				} else {
 					if (b_spaced_out) {
 						printf("  ");
@@ -351,7 +353,7 @@ void process_buffer(int index, char buf[128])
 	y=int(  computed_distance /12* cos( angle_from_center*PI/180));
 //		printf("angle_from_cente oldr =%f  %i %i %f \n", angle_from_center,x-room_center,w,angle_per_pixel );
 //		mapXY(x,y);
-		map4XY();
+//		map4XY();
 	} else {
 //		printf("Average false =%f\n",id); 
 //		output_values(id, x, y, w, h, aspect, area);
@@ -480,10 +482,17 @@ if (blocks_copied>0){
        blocks[index].print(buf);
 	aSoldier[index].set_all(blocks[index].x, blocks[index].y, blocks[index].width, blocks[index].height, blocks[index].signature, index);
 	aSoldier[index+1].set_id(-1);
+	
 //	aSoldier[index].print_index();
-//        printf("%i %s\n",index,buf);
-	process_buffer(index,buf);
-}
+       //printf("%i %s\n",index,buf);
+	//process_buffer(index,buf);
+	};
+		printf("After	\n");
+	map4XY(blocks_copied);
+    for(index = 0; index != blocks_copied; ++index) {    
+		printf("%i %i %i %i %i %i %f \n",index,aSoldier[index].get_id(),aSoldier[index].get_x(),aSoldier[index].get_y(),aSoldier[index].get_w(),aSoldier[index].get_h(),aSoldier[index].get_area(),(aSoldier[index].computed_distance/12));
+	};
+		printf("\n");
     }
     i++;
 //	if (i>1000) {run_flag=false;}

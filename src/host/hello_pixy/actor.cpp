@@ -83,6 +83,7 @@ void Actor::set_all(int new_x,int new_y,int new_w,int new_h,int new_id,int new_i
 	} else {
 		computed_distance=physical_distance_H;
 	};
+		computed_distance=physical_distance_W;  // This line must be removed to restore the aspect control for a shirt.
 
 	room_X_position=(int(  computed_distance /12* sin( angle_from_center *PI/180)))+room_width/2 ;
 	room_Y_position=int(  computed_distance /12* cos( angle_from_center*PI/180));
@@ -142,6 +143,10 @@ int Actor::get_index() {
 
 int Actor::get_id() {
 	return id;
+};
+
+int Actor::get_area() {
+	return area;
 };
 
 int Actor::get_x() {
