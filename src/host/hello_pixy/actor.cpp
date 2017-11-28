@@ -75,7 +75,7 @@ void Actor::set_all(int new_x,int new_y,int new_w,int new_h,int new_id,int new_i
 		compute_average_w(9);
 		compute_average_h(9);
 
-	angle_from_center = (x-camera_pixel_center+w/2)*angle_per_pixel;
+	angle_from_center = -(x-camera_pixel_center+w/2)*angle_per_pixel;
 	physical_distance_W=(physical_width * focal_length) / w;
 	physical_distance_H=(physical_height * focal_length) / h;
 	if (aspectratio>physical_aspect) {
