@@ -223,7 +223,7 @@ void mapXY(int x, int y){
 
 void map4XY(int i_count){
 	int i,j,k;
-        char signature[] = {' ','R','G','B','\0'};
+        char signature[] = {' ','R','B','G','\0'};
 	bool b_spaced_out;
 
 
@@ -342,7 +342,7 @@ void process_buffer(int index, char buf[128])
 		printf("%i ", w);
 		printf("%f ", computed_distance);
 		printf("%i ", h);
-		printf("%i \n", aspect);
+		printf("%f \n", aspect);
 	
 
 		//output_values(id, x, y, w, h, aspect, area);
